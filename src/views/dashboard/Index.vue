@@ -4,6 +4,8 @@ import {useRouter} from 'vue-router';
 import {useAuthStore} from '@/store/auth';
 import Button from 'primevue/button';
 
+
+
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -27,4 +29,5 @@ const logout = async () => {
       <Button @click="logout" label="Primary" rounded>Logout</Button>
     </div>
   </div>
+
 </template>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lg="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
@@ -13,8 +13,11 @@ import axios from 'axios';
     password: ''
   });
 
+  const isLoading = ref(false);
+
   const login = async () => {
     try {
+       isLoading.value = true;
        await authStore.login(form.value);
       // Перенаправление после успешного входа
       const redirect = router.currentRoute.value.query.redirect || '/dashboard';
@@ -29,20 +32,7 @@ import axios from 'axios';
 
 <template>
 
-  <!--
-  <form @submit.prevent="login">
-    <div>
-      <label>Email</label>
-      <input v-model="form.email" type="email" required>
-    </div>
-    <div>
-      <label>Password</label>
-      <input v-model="form.password" type="password" required>
-    </div>
-    <button type="submit">SEND</button>
-  </form>
-  -->
-  <form @submit.prevent="login">
+  <form @submit.prevent="">
     <div class="flex flex-col gap-6">
       <div class="block text-2xl font-bold text-center my-6">Sign in to your account</div>
       <div>
@@ -53,7 +43,10 @@ import axios from 'axios';
         <label for="password" class="block pb-2">Password</label>
         <InputText id="password" v-model="form.password"  class="w-full" />
       </div>
-      <Button label="Create" type="submit"  class="bg-red-800"/>
+
+      <Button type="button" label="Sign Up"  :loading="isLoading" @click="login" />
     </div>
   </form>
+
+
 </template>
