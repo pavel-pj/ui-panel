@@ -12,7 +12,7 @@
   </body>
 </template>
 
-<script setup>
+<script setup lg="ts">
 import { defineEmits } from 'vue';
 
 const name = 'AppLayout';

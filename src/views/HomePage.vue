@@ -1,4 +1,4 @@
-<script setup>
+<script setup lg="ts">
 import { ref  } from "vue";
 const iter =  ref(1);
 
