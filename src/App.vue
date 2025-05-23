@@ -1,8 +1,6 @@
 <script setup >
 import { RouterView,useRoute, useRouter  } from 'vue-router'
 import { computed , onMounted, watch,ref } from "vue";
-import AppLayout from '@/layouts/AppLayout.vue'
-import AppLayoutReg from '@/layouts/AppLayoutReg.vue'
 import { useAuthStore } from '@/store/auth'
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -19,7 +17,7 @@ onMounted(async () => {
   } catch (error) {
     if (error.response?.status === 401) {
       console.log('Пользователь не авторизован, перенаправляем на /login');
-      router.push('/login');
+      router.push({ name: 'login' });
     } else {
       console.error('Ошибка при проверке аутентификации:', error);
     }

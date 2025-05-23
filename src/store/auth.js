@@ -2,10 +2,13 @@ import { defineStore } from 'pinia';
 import http from '@/http';
 
 export const useAuthStore = defineStore('auth', {
+
   state: () => ({
     user: null,
-    token: localStorage.getItem('auth_token') || null, // Загружаем токен из localStorage
+    token: localStorage.getItem('auth_token') || null,
   }),
+
+
   actions: {
     async login(formData) {
       try {
@@ -13,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
         await http.get('/sanctum/csrf-cookie');
 
         // 2. Отправляем логин/пароль
-        const { data } = await http.post('/login', formData);
+        const {data} = await http.post('/login', formData);
 
         // 3. Сохраняем токен и пользователя
         this.token = data.token;
@@ -26,14 +29,16 @@ export const useAuthStore = defineStore('auth', {
         throw error;
       }
     },
-  },
+
 
     // Новый метод для проверки аутентификации
     async fetchUser() {
+
+
       try {
         if (!this.token) return null;
 
-        const { data } = await http.get('/user');
+        const { data } = await http.get('/profile');
         this.user = data;
         return data;
       } catch (error) {
@@ -42,17 +47,21 @@ export const useAuthStore = defineStore('auth', {
         localStorage.removeItem('auth_token');
         throw error;
       }
-    },
 
+
+    },
+    /*
     async fetchProfile() {
-      const { data } = await http.get('/profile');
+      const {data} = await http.get('/profile');
       return data;
     },
+    */
 
     logout() {
       this.token = null;
       this.user = null;
       localStorage.removeItem('auth_token');
     },
+  }
 
 });

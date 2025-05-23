@@ -2,83 +2,124 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { defineAsyncComponent } from "vue";
 import { useAuthStore } from '@/store/auth';
 
-/*
-const routes = [
-    {
-        path: "/",
-        name: "main",
-        component: defineAsyncComponent(
-            () => import('@/views/HomePage.vue'),
-        ),
 
-    },
-    {
-        path: "/reg",
-        name: "registration",
-        component: defineAsyncComponent(
-            () => import('@/views/registrationForm.vue'),
-        ),
-    }
-]
-
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
-});
-*/
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
+      path: '/',
+      redirect: '/dashboard'
+    },
+    {
+      path: '/login',
+      redirect: { name: 'login' } // Перенаправляем на именованный маршрут
+    },
+    {
+      path: '/auth',
+      component: () => import('@/layouts/AuthLayout.vue'),
+      meta: { guest: true },
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('@/views/auth/Login.vue')
+        },
+        /*
+        {
+          path: 'register',
+          name: 'register',
+          component: () => import('@/views/auth/Register.vue')
+        }
+
+         */
+      ]
+    },
+
+
+    /*
+    {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/Login.vue'),
+      component: () => import('@/views/auth/Login.vue'),
       meta: { guest: true }
     },
+
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('@/views/Dashboard.vue'),
+      component: () => import('@/views/dashboard/Dashboard.vue'),
       meta: { requiresAuth: true }
     },
+    */
+    {
+      path: '/dashboard',
+      component: () => import('@/layouts/AppLayout.vue'),
+      meta: { requiresAuth: true },
+      children: [
+
+        {
+          path: '',
+          name: 'dashboard',
+          component: () => import('@/views/dashboard/Index.vue')
+        },
+
+         /*
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('@/views/dashboard/Settings.vue')
+        }
+        */
+
+      ]
+    }
     // другие маршруты
   ]
 });
 
 router.beforeEach(async (to, from, next) => {
+  console.log('Trying to navigate to:', to.path, 'matched:', to.matched)
   const authStore = useAuthStore();
+
+  // Инициализируем состояние аутентификации
+  const isAuthenticated = authStore.token !== null;
 
   // Если маршрут требует аутентификации
   if (to.meta.requiresAuth) {
-    console.log("SEFEF")
+    console.log("ender")
     try {
-      // Проверяем, есть ли пользователь
-      if (!authStore.authenticated) {
-        // Пытаемся получить данные пользователя
+
+      // Если есть токен, но нет данных пользователя - загружаем их
+      if (authStore.token && !authStore.user) {
+        console.log("enter 2")
         await authStore.fetchUser();
       }
 
-      // Если пользователь авторизован - разрешаем переход
-      if (authStore.authenticated) {
+      // Проверяем аутентификацию
+      if (authStore.token && authStore.user) {
+        console.log("enter 3")
         next();
+        return; // Важно: завершаем выполнение
       } else {
-        // Если нет - перенаправляем на страницу входа
+        // Если аутентификация не прошла
+        authStore.logout(); // Очищаем невалидные данные
         next({ name: 'login', query: { redirect: to.fullPath } });
       }
     } catch (error) {
-      next({ name: 'login', query: { redirect: to.fullPath } });
+      console.error('Auth check failed:', error);
+      authStore.logout(); // Очищаем данные при ошибке
+      next({ name: 'login' });
     }
   }
   // Если маршрут только для гостей
-  else if (to.meta.guest) {
-    if (authStore.authenticated) {
-      // Если пользователь авторизован - перенаправляем на главную
+  if (to.meta.guest) {
+    if (authStore.token) {
       next({ name: 'dashboard' });
-    } else {
-      next();
+      return;
     }
+    next();
+    return;
   }
   // Для всех остальных маршрутов
   else {

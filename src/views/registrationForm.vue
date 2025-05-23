@@ -1,7 +1,6 @@
 <script setup lg="ts">
 import { ref } from 'vue';
 import InputText from 'primevue/inputtext';
-import AuthService from '@/services/authService';
 import axios from 'axios';
 
   const data = ref({
@@ -32,7 +31,7 @@ import axios from 'axios';
 </script>
 <template>
   <div>
-    {{data}}
+
     <form @submit.prevent="login">
       <div class="flex flex-col gap-6">
         <div class="block text-2xl font-bold text-center my-6">Sign in to your account</div>
