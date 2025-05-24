@@ -14,7 +14,13 @@ export default defineConfig([
   {
     files: ["**/*.vue"],
     rules: {
-      "vue/multi-word-component-names": "off"
+      "vue/multi-word-component-names": "off",
+      "indent": ["error", 2],
+      "semi": ["error", "always"],
+      "quotes": ["error", "single"],
+      "comma-dangle": ["error", "never"],
+      "no-trailing-spaces": "error",
+      "eol-last": ["error", "always"]
     }
   },
   {

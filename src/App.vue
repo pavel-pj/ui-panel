@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { RouterView, useRouter  } from 'vue-router'
-import {  onMounted } from "vue";
-import { useAuthStore } from '@/store/auth'
+import { RouterView, useRouter  } from 'vue-router';
+import {  onMounted } from 'vue';
+import { useAuthStore } from '@/store/auth';
 
-  const router = useRouter();
-  const authStore = useAuthStore();
+   const router = useRouter();
+const authStore = useAuthStore();
 
 onMounted(async () => {
   try {

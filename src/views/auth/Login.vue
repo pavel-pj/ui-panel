@@ -5,33 +5,33 @@ import { useAuthStore } from '@/store/auth';
 import InputText from 'primevue/inputtext';
 
 
-  const router = useRouter();
-  const authStore = useAuthStore();
+const router = useRouter();
+const authStore = useAuthStore();
 
   interface Data {
     email:string,
     password:string
   }
 
-  const form  = ref<Data>({
-    email: '',
-    password: ''
-  });
+const form  = ref<Data>({
+  email: '',
+  password: ''
+});
 
-  const isLoading = ref(false);
+const isLoading = ref(false);
 
-  const login = async () => {
-    try {
-       isLoading.value = true;
-       await authStore.login(form.value);
-      // Перенаправление после успешного входа
-      const redirect = router.currentRoute.value.query.redirect || '/dashboard';
-      router.push(redirect as string);
-    } catch (error) {
-      console.error('Login failed:', error);
-      // Обработка ошибки (показать сообщение пользователю)
-    }
-  };
+const login = async () => {
+  try {
+    isLoading.value = true;
+    await authStore.login(form.value);
+    // Перенаправление после успешного входа
+    const redirect = router.currentRoute.value.query.redirect || '/dashboard';
+    router.push(redirect as string);
+  } catch (error) {
+    console.error('Login failed:', error);
+    // Обработка ошибки (показать сообщение пользователю)
+  }
+};
 
 </script>
 
