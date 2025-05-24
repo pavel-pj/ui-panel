@@ -1,12 +1,10 @@
-<script setup >
-import { RouterView,useRoute, useRouter  } from 'vue-router'
-import { computed , onMounted, watch,ref } from "vue";
+<script setup lang="ts">
+import { RouterView, useRouter  } from 'vue-router'
+import {  onMounted } from "vue";
 import { useAuthStore } from '@/store/auth'
-import { createRouter, createWebHistory } from 'vue-router';
 
-
-    const router = useRouter();
-    const authStore = useAuthStore();
+  const router = useRouter();
+  const authStore = useAuthStore();
 
 onMounted(async () => {
   try {

@@ -1,14 +1,19 @@
-<script setup lg="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
 import InputText from 'primevue/inputtext';
-import axios from 'axios';
+
 
   const router = useRouter();
   const authStore = useAuthStore();
 
-  const form = ref({
+  interface Data {
+    email:string,
+    password:string
+  }
+
+  const form  = ref<Data>({
     email: '',
     password: ''
   });
@@ -21,7 +26,7 @@ import axios from 'axios';
        await authStore.login(form.value);
       // Перенаправление после успешного входа
       const redirect = router.currentRoute.value.query.redirect || '/dashboard';
-      router.push(redirect);
+      router.push(redirect as string);
     } catch (error) {
       console.error('Login failed:', error);
       // Обработка ошибки (показать сообщение пользователю)

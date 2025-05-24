@@ -1,13 +1,29 @@
 import { defineStore } from 'pinia';
 import http from '@/http';
-import { ref , computed } from 'vue';
+import { ref, Ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', ()=> {
 
-  const user = ref(null);
-  const token = ref(localStorage.getItem('auth_token'));
+  interface User {
+    id:string,
+    name:string,
+    email:string,
+  }
 
-  const  login = async (formData) => {
+  interface LoginFormData {
+    email:string,
+    password:string,
+  }
+
+  interface AuthResponse {
+    token:string,
+    user: User,
+  }
+
+  const user : Ref<User | null > = ref(null);
+  const token : Ref<string | null > = ref(localStorage.getItem('auth_token'));
+
+  const  login = async (formData: LoginFormData): Promise<AuthResponse>=> {
     try {
       // 1. Запрашиваем CSRF-куки (если нужно)
       await http.get('/sanctum/csrf-cookie');
@@ -28,7 +44,7 @@ export const useAuthStore = defineStore('auth', ()=> {
   }
 
   // Новый метод для проверки аутентификации
-  const fetchUser = async() => {
+  const fetchUser = async(): Promise<User | null> => {
     try {
       if (!token.value) return null;
 
@@ -43,10 +59,17 @@ export const useAuthStore = defineStore('auth', ()=> {
     }
   }
 
-  const logout =()=> {
-    token.value = null;
-    user.value = null;
-    localStorage.removeItem('auth_token');
+  const logout =async ()=> {
+    try {
+      const {data} = await http.post('/logout' );
+      token.value = null;
+      user.value = null;
+      localStorage.removeItem('auth_token');
+      return data;
+    } catch (error) {
+      console.error('Login failed:', error.response?.data || error.message);
+      throw error;
+    }
   }
 
   return {

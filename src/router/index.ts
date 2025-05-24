@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { defineAsyncComponent } from "vue";
 import { useAuthStore } from '@/store/auth';
 
 
@@ -64,13 +63,13 @@ const router = createRouter({
           component: () => import('@/views/dashboard/Index.vue')
         },
 
-         /*
-        {
-          path: 'settings',
-          name: 'settings',
-          component: () => import('@/views/dashboard/Settings.vue')
-        }
-        */
+        /*
+       {
+         path: 'settings',
+         name: 'settings',
+         component: () => import('@/views/dashboard/Settings.vue')
+       }
+       */
 
       ]
     }
@@ -83,7 +82,7 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
   // Инициализируем состояние аутентификации
-  const isAuthenticated = authStore.token  !== null;
+  ///const isAuthenticated = authStore.token  !== null;
 
   // Если маршрут требует аутентификации
   if (to.meta.requiresAuth) {
