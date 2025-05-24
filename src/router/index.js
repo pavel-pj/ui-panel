@@ -83,7 +83,7 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
   // Инициализируем состояние аутентификации
-  const isAuthenticated = authStore.token !== null;
+  const isAuthenticated = authStore.token  !== null;
 
   // Если маршрут требует аутентификации
   if (to.meta.requiresAuth) {
@@ -91,7 +91,7 @@ router.beforeEach(async (to, from, next) => {
     try {
 
       // Если есть токен, но нет данных пользователя - загружаем их
-      if (authStore.token && !authStore.user) {
+      if (authStore.token  && !authStore.user ) {
         console.log("enter 2")
         await authStore.fetchUser();
       }
