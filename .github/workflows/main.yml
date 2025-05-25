@@ -2,7 +2,7 @@ name: CI lint
 
 on:
   push:
-    branches: [main, dev ]
+    branches: [main, dev, auth ]
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
