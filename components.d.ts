@@ -11,6 +11,7 @@ declare module 'vue' {
     AppConfig: typeof import('./src/components/AppConfig.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppTopbar: typeof import('./src/components/AppTopbar.vue')['default']
+    AuthForm: typeof import('./src/components/auth/AuthForm.vue')['default']
     Button: typeof import('primevue/button')['default']
     ProductOverviewWidget: typeof import('./src/components/dashboard/ProductOverviewWidget.vue')['default']
     RecentActivityWidget: typeof import('./src/components/dashboard/RecentActivityWidget.vue')['default']

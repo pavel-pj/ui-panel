@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('auth', ()=> {
   interface LoginFormData {
     email:string,
     password:string,
+    password_confirm?:string,
   }
 
   interface AuthResponse {
@@ -23,6 +24,26 @@ export const useAuthStore = defineStore('auth', ()=> {
   const user : Ref<User | null > = ref(null);
   const token : Ref<string | null > = ref(localStorage.getItem('auth_token'));
 
+  // Новый метод для проверки аутентификации
+  const createUser = async(formData: LoginFormData): Promise<AuthResponse> => {
+    try {
+      // 1. Запрашиваем CSRF-куки (если нужно)
+      await http.get('/sanctum/csrf-cookie');
+
+      // 2. Отправляем логин/пароль
+      const {data} = await http.post('/register', formData);
+
+      // 3. Сохраняем токен и пользователя
+      token.value = data.token;
+      user.value = data.user;
+      localStorage.setItem('auth_token', data.token);
+
+      return data;
+    } catch (error) {
+      console.error('Registration failed:', error.response?.data || error.message);
+      throw error;
+    }
+  }
   const  login = async (formData: LoginFormData): Promise<AuthResponse>=> {
     try {
       // 1. Запрашиваем CSRF-куки (если нужно)
@@ -75,6 +96,7 @@ export const useAuthStore = defineStore('auth', ()=> {
   return {
     user,
     token,
+    createUser,
     login,
     fetchUser,
     logout
