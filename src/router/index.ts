@@ -35,22 +35,6 @@ const router = createRouter({
       ]
     },
 
-
-    /*
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/auth/Login.vue'),
-      meta: { guest: true }
-    },
-
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('@/views/dashboard/Dashboard.vue'),
-      meta: { requiresAuth: true }
-    },
-    */
     {
       path: '/dashboard',
       component: () => import('@/layouts/AppLayout.vue'),
@@ -63,13 +47,13 @@ const router = createRouter({
           component: () => import('@/views/dashboard/Index.vue')
         },
 
-        /*
+
        {
-         path: 'settings',
-         name: 'settings',
-         component: () => import('@/views/dashboard/Settings.vue')
+         path: 'catalog-articles',
+         name: 'catalog-articles',
+         component: () => import('@/components/Catalog/Index/Index.vue')
        }
-       */
+
 
       ]
     }

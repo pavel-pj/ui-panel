@@ -9,7 +9,14 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
+    Index: typeof import('./src/components/Catalog/Index/Index.vue')['default']
+    LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TopPanel: typeof import('./src/components/TopPanel.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    Ripple: typeof import('primevue/ripple')['default']
   }
 }
