@@ -8,16 +8,22 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+<<<<<<< HEAD
     AppConfig: typeof import('./src/components/AppConfig.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppTopbar: typeof import('./src/components/AppTopbar.vue')['default']
     AuthForm: typeof import('./src/components/auth/AuthForm.vue')['default']
+=======
+>>>>>>> dev
     Button: typeof import('primevue/button')['default']
-    ProductOverviewWidget: typeof import('./src/components/dashboard/ProductOverviewWidget.vue')['default']
-    RecentActivityWidget: typeof import('./src/components/dashboard/RecentActivityWidget.vue')['default']
+    Index: typeof import('./src/components/Catalog/Index/Index.vue')['default']
+    LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SalesTrendWidget: typeof import('./src/components/dashboard/SalesTrendWidget.vue')['default']
-    StatsWidget: typeof import('./src/components/dashboard/StatsWidget.vue')['default']
+    TopPanel: typeof import('./src/components/TopPanel.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    Ripple: typeof import('primevue/ripple')['default']
   }
 }
