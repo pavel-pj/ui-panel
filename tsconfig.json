@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "useUnknownInCatchVariables": false,
     "strict": true,                     // Включает строгую проверку типов (обязательно!)

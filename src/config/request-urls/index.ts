@@ -1,4 +1,4 @@
-export const baseUrl = `/api`;
+export const baseUrl = 'http://localhost:8000/api';
 
 //organization
 export function catalogURL() {
