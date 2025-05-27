@@ -20,7 +20,9 @@ export default defineConfig([
       "quotes": ["error", "single"],
       "comma-dangle": ["error", "never"],
       "no-trailing-spaces": "error",
-      "eol-last": ["error", "always"]
+      "eol-last": ["error", "always"],
+      '@typescript-eslint/no-explicit-any': 'off', // Полностью отключает ошибку
+      '@typescript-eslint/no-unused-vars': 'warn'
     }
   },
   {

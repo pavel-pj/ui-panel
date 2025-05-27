@@ -8,11 +8,23 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+<<<<<<< HEAD
     AuthForm: typeof import('./src/components/auth/AuthForm.vue')['default']
+=======
+    Button: typeof import('primevue/button')['default']
+    Column: typeof import('primevue/column')['default']
+    DataTable: typeof import('primevue/datatable')['default']
+>>>>>>> dev
     Index: typeof import('./src/components/Catalog/Index/Index.vue')['default']
     LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopPanel: typeof import('./src/components/TopPanel.vue')['default']
   }
+<<<<<<< HEAD
+=======
+  export interface GlobalDirectives {
+    Ripple: typeof import('primevue/ripple')['default']
+  }
+>>>>>>> dev
 }

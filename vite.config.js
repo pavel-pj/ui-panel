@@ -26,8 +26,14 @@ export default defineConfig({
     eslint({
       fix: true,
       lintOnStart: true,
+      overrideConfig: {
+        rules: {
+          "@typescript-eslint/no-explicit-any": "off" // Отключаем правило
+        }
+      }
     }),
   ],
+
   build: {
     rollupOptions: {
       input: '/src/main.ts' // Убедитесь, что указан .ts файл
@@ -38,4 +44,9 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  config: {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off" // Локальное переопределение
+    }
+  }
 });

@@ -43,15 +43,11 @@ const router = createRouter({
           name: 'dashboard',
           component: () => import('@/views/dashboard/Index.vue')
         },
-
-
        {
          path: 'catalog-articles',
          name: 'catalog-articles',
          component: () => import('@/components/Catalog/Index/Index.vue')
        }
-
-
       ]
     }
     // другие маршруты
@@ -67,18 +63,17 @@ router.beforeEach(async (to, from, next) => {
 
   // Если маршрут требует аутентификации
   if (to.meta.requiresAuth) {
-    console.log("ender")
+    console.log("HERER")
     try {
 
       // Если есть токен, но нет данных пользователя - загружаем их
       if (authStore.token  && !authStore.user ) {
-        console.log("enter 2")
-        await authStore.fetchUser();
+          await authStore.fetchUser();
       }
 
       // Проверяем аутентификацию
       if (authStore.token && authStore.user) {
-        console.log("enter 3")
+
         next();
         return; // Важно: завершаем выполнение
       } else {

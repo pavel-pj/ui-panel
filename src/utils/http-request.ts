@@ -1,9 +1,11 @@
 import { ref } from "vue";
-import axios, { AxiosError } from "axios";
+import axios  from "axios";
 import type { AxiosRequestConfig } from "axios";
 import type { Ref } from "vue";
+import { useAuthStore } from '@/store/auth'; // Добавляем импорт хранилища
 
 type Method = AxiosRequestConfig["method"];
+
 
 
 interface SendRequestParams<R = unknown> {
@@ -13,11 +15,12 @@ interface SendRequestParams<R = unknown> {
   params?: Record<string, unknown>;
   headers?: Record<string, string>;
 }
-
+/*
 interface ErrorResponse {
   message: string;
   // Add other properties if your API returns more fields
 }
+*/
 
 interface HttpResponse<T = unknown> {
   data: T,
@@ -28,6 +31,7 @@ interface HttpResponse<T = unknown> {
 
 export function useHttpRequest<T = unknown>() {
 
+  const authStore = useAuthStore(); // Получаем хранилище
   const data: Ref<T | null> = ref(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
@@ -54,7 +58,12 @@ export function useHttpRequest<T = unknown>() {
       const config: AxiosRequestConfig = {
         url,
         method,
-        headers,
+        headers: {
+          ...headers,
+          ...(authStore.token ? {
+            'Authorization': `Bearer ${authStore.token}`
+          } : {})
+        },
         ...(method !== "GET" && requestData ? { data: requestData } : {}),
 
       };
