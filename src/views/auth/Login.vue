@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
- 
+
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -49,10 +49,11 @@ const login = async () => {
         <label for="password" class="block pb-2">Password</label>
         <InputText type="text" v-model="form.password"  variant="filled"  class="w-full"/>
       </div>
-      <Button @click="login" label="Primary" rounded>Sign Up</Button>
+      <Button @click="login" label="Primary" rounded v-if="!isLoading">Sign Up</Button>
 
 
     </div>
   </form>
+  <ProgressSpinner aria-label="Loading" v-if="isLoading"/>
 
 </template>
