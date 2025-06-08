@@ -15,6 +15,7 @@ import TopPanel from '@/components/TopPanel.vue';
           <main>
             <TopPanel />
 
+
               <router-view></router-view>
 
           </main>

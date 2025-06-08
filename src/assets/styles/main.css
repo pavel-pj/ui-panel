@@ -1,4 +1,6 @@
 @import "tailwindcss";
-@import "tailwindcss-primeui";
-@import "primeicons/primeicons.css";
-@custom-variant dark (&:where(.p-dark, .p-dark *));
+.n-button {
+  font-size: 20px; /* Размер текста */
+  padding: 0 20px; /* Отступы внутри кнопки */
+  height: 40px;    /* Высота кнопки */
+}

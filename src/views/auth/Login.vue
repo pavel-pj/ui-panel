@@ -2,8 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
-import InputText from 'primevue/inputtext';
-
+ 
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -13,7 +12,7 @@ const authStore = useAuthStore();
     password:string
   }
 
-const form  = ref<Data>({
+const form  = ref<Data> ({
   email: '',
   password: ''
 });
@@ -28,10 +27,11 @@ const login = async () => {
     const redirect = router.currentRoute.value.query.redirect || '/dashboard';
     router.push(redirect as string);
   } catch (error) {
-    console.error('Login failed:', error);
+    console.error('My Login failed:', error);
     // Обработка ошибки (показать сообщение пользователю)
   }
 };
+
 
 </script>
 
@@ -42,16 +42,17 @@ const login = async () => {
       <div class="block text-2xl font-bold text-center my-6">Sign in to your account</div>
       <div>
         <label for="email" class="block pb-2">Email</label>
-        <InputText id="email" v-model="form.email"  class="w-full" />
+
+         <InputText type="text" v-model="form.email"  variant="filled"  class="w-full"/>
       </div>
       <div>
         <label for="password" class="block pb-2">Password</label>
-        <InputText id="password" v-model="form.password"  class="w-full" />
+        <InputText type="text" v-model="form.password"  variant="filled"  class="w-full"/>
       </div>
+      <Button @click="login" label="Primary" rounded>Sign Up</Button>
 
-      <Button type="button" label="Sign Up"  :loading="isLoading" @click="login" />
+
     </div>
   </form>
-
 
 </template>

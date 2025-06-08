@@ -3,6 +3,10 @@ import { RouterView, useRouter  } from 'vue-router';
 import {  onMounted } from 'vue';
 import { useAuthStore } from '@/store/auth';
 
+
+
+
+
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -23,10 +27,15 @@ onMounted(async () => {
 });
 
 
+
 </script>
 
 <template>
+
+
     <router-view></router-view> <!-- Это обязательно! -->
+
+
 </template>
 
 

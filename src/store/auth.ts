@@ -24,10 +24,13 @@ export const useAuthStore = defineStore('auth', ()=> {
   const token : Ref<string | null > = ref(localStorage.getItem('auth_token'));
 
   const  login = async (formData: LoginFormData): Promise<AuthResponse>=> {
+    console.log("ПРОБУЕМ auth.login")
     try {
+      console.log("auth.login")
       // 1. Запрашиваем CSRF-куки (если нужно)
-      await http.get('/sanctum/csrf-cookie');
-
+      const v = await http.get('/sanctum/csrf-cookie');
+      console.log('SCSRF-TOKEN : ')
+      console.log(v)
       // 2. Отправляем логин/пароль
       const {data} = await http.post('/login', formData);
 
