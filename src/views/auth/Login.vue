@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
+import ProgressSpinner from 'primevue/progressspinner';
 
 
 const router = useRouter();
@@ -49,11 +50,25 @@ const login = async () => {
         <label for="password" class="block pb-2">Password</label>
         <InputText type="text" v-model="form.password"  variant="filled"  class="w-full"/>
       </div>
-      <Button @click="login" label="Primary" rounded v-if="!isLoading">Sign Up</Button>
+
+      <Button @click="login" rounded
+      :severity="isLoading ? 'secondary' : 'primary'"
+      :disabled="isLoading"
+       >
+        <span v-if="!isLoading"> Sign Up</span>
+         <div v-if="isLoading" class="card flex justify-center">
+        <ProgressSpinner
+        v-if="isLoading"
+        style="width: 35px; height:35px" strokeWidth="4" fill="transparent"
+            animationDuration="2s" aria-label="Custom ProgressSpinner" />
+          </div>
+
+      </Button>
 
 
     </div>
   </form>
-  <ProgressSpinner aria-label="Loading" v-if="isLoading"/>
+
+
 
 </template>

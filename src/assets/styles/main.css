@@ -1,6 +1,11 @@
 @import "tailwindcss";
+ 
+
+
 .n-button {
   font-size: 20px; /* Размер текста */
   padding: 0 20px; /* Отступы внутри кнопки */
   height: 40px;    /* Высота кнопки */
 }
+
+ 

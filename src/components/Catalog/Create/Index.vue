@@ -3,12 +3,13 @@ import { ref } from 'vue';
 import { useHttpRequest } from '@/utils/http-request';
 import { catalogCreateURL } from '@/config/request-urls';
 import {useRouter} from 'vue-router';
+import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 
 
 const router = useRouter();
 
 interface Form {
-    name: string,
+  name: string,
 }
 
 const formData = ref<Form> ({
@@ -16,21 +17,18 @@ const formData = ref<Form> ({
 });
 
 const {
-  // loading ,
+  loading: isLoading ,
   // error ,
   sendRequest
 } = useHttpRequest();
 
-const isLoading = ref<boolean>(false);
 
-const create = async() => {
+const createData = async() => {
 
   isLoading.value = true;
   const params = formData.value;
 
-  let res;
-
-  res = await sendRequest({
+  const res = await sendRequest({
     url: catalogCreateURL(),
     method: 'POST',
     data: params
@@ -39,28 +37,25 @@ const create = async() => {
 
   if (res?.isOk) {
     await router.push('catalog-index');
-    isLoading.value = false;
+    //isLoading.value = false;
   } else {
     isLoading.value = false;
   }
 };
 
-
-
 </script>
 
 <template>
-  CREATE
-  <!--
+
   <h1 class="text-size-2xl my-4"> Create new Catalog </h1>
-  <div class="rounded-xl p-4 border border-amber-100 shadow-xl w-[400px] my-6">
+  <div class="    w-[400px] my-6">
     <form @submit.prevent="">
       <div class="flex flex-col justify-start gap-4">
-        <UInput v-model="formData.name" placeholder="Catalog name"  />
-        <UButton type="button" label="Create"  :loading="isLoading"    @click="create" />
-          </div>
+      <InputText type="text" v-model="formData.name" />
+      <Button @click="createData" rounded > Create </Button>
+    </div>
 
     </form>
   </div>
-  -->
+ <modalSpiner :isSpiner="isLoading" ></modalSpiner>
 </template>
