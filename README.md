@@ -1,6 +1,7 @@
-#  PrimeVue + TailwindCSS
+###  PrimeVue admin Panel
+[![CI lint](https://github.com/pavel-pj/ui-panel/actions/workflows/main.yml/badge.svg)](https://github.com/pavel-pj/ui-panel/actions/workflows/main.yml)
 
-branch Dashboard
+branch Dev
 
 to work auth :
 
