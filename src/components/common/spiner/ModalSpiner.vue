@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProgressSpinner from 'primevue/progressspinner';
 
+
 type Props = {
    isSpiner:boolean,
    color?:string
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<Props>(),{
   </div>
 </div>
 </template>
+
 <style scoped>
 /* Для Vue 3 + PrimeVue */
 .custom-spinner :deep(.p-progressspinner-circle) {
