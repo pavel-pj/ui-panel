@@ -3,8 +3,8 @@
 import { ref, onMounted ,computed} from 'vue';
 import {useRouter} from 'vue-router';
 import {
-  catalogURL,
-  deleteCatalogURL
+  articleURL,
+  deleteArticleURL
 } from '@/config/request-urls';
 import { useHttpRequest } from '@/utils/http-request';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
@@ -14,7 +14,7 @@ import BreadCrumbs from '@/components/common/navigate/BreadCrumbs.vue';
 
 const router = useRouter();
 
-interface CatalogItem {
+interface ArticleItem {
   id: string,
   name: string,
 
@@ -27,12 +27,9 @@ const margYspiner = '24';
 const {
   data: catalog,
   sendRequest: sendData
-} = useHttpRequest<CatalogItem[]>({
-  showSuccessToast:false,
-  showErrorToast: false
-});
+} = useHttpRequest<ArticleItem[]>();
 
-const tableData = ref<CatalogItem[]>([]);
+const tableData = ref<ArticleItem[]>([]);
 
 const isPageSpiner = computed (()=>{
   const data = catalog.value || null;
@@ -41,10 +38,7 @@ const isPageSpiner = computed (()=>{
 
 const {
   sendRequest: sendDelete
-} = useHttpRequest({
-  showSuccessToast:false,
-  showErrorToast: true
-});
+} = useHttpRequest();
 
 
 const dataToDelete = ref<any>('');
@@ -65,13 +59,13 @@ const deleteItem = async () =>{
   isSpiner.value = true;
 
   const res = await sendDelete({
-    url: deleteCatalogURL(dataToDelete.value?.id),
+    url: deleteArticleURL(dataToDelete.value?.id),
     method: 'DELETE'
 
   });
 
   if (res?.isOk) {
-    await getCatalog();
+    await getArticle();
     isSpiner.value = false;
   } else {
     isSpiner.value = false;
@@ -81,11 +75,11 @@ const deleteItem = async () =>{
 
 
 onMounted(async () => {
-  await getCatalog();
+  await getArticle();
 });
 
-const getCatalog = async()=> {
-  const response = await sendData({ url: catalogURL() });
+const getArticle = async()=> {
+  const response = await sendData({ url: articleURL() });
 
   if (response?.data) {
     tableData.value = Array.isArray(response.data)
@@ -96,18 +90,18 @@ const getCatalog = async()=> {
 
 
 const create = () => {
-  router.push('catalog-create');
+  router.push('article-create');
 };
 
 const onRowSelect =(event)=>{
   console.log(event.data.id);
-  router.push(`catalog/edit/${event.data.id}`);
+  router.push(`article/edit/${event.data.id}`);
 };
 
 const itemsBreadCrumbs =computed(()=>{
 
   return ([
-    { label: 'Catalog'   }]);
+    { label: 'Article'   }]);
 });
 
 </script>

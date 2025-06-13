@@ -69,10 +69,31 @@ const router = createRouter({
          props: {
           isEdit:true
          }
-       }
+       },
+       {
+         path: 'article-index',
+         name: 'article-index',
+         component: () => import('@/components/Article/Index/Index.vue')
+       },
+       {
+         path: 'article-create',
+         name: 'article-create',
+         component: () => import('@/components/Article/Create/Index.vue'),
+         props: {
+          isEdit:false
+         }
+       },
+       {
+         path: 'article/edit/:article_id',
+         name: 'article-edit',
+         component: () => import('@/components/Article/Create/Index.vue'),
+         props: {
+          isEdit:true
+         }
+       },
       ]
     }
-    // другие маршруты
+     
   ]
 });
 

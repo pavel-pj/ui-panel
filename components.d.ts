@@ -8,7 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Badge: typeof import('primevue/badge')['default']
     Breadcrumb: typeof import('primevue/breadcrumb')['default']
     BreadCrumbs: typeof import('./src/components/common/navigate/BreadCrumbs.vue')['default']
     Button: typeof import('primevue/button')['default']

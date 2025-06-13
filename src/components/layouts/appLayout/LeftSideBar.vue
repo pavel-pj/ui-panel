@@ -11,7 +11,7 @@ const items = ref([
   {
     label: 'Article',
     icon: 'pi pi-book',
-    route: '/dashboard/catalog-index'
+    route: '/dashboard/article-index'
   }
 
 

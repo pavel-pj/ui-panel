@@ -3,10 +3,16 @@ import axios  from "axios";
 import type { AxiosRequestConfig,AxiosError } from "axios";
 import type { Ref } from "vue";
 import { useAuthStore } from '@/store/auth'; // Добавляем импорт хранилища
+import { showToast } from '@/utils/showToast';
 
 type Method = AxiosRequestConfig["method"];
 
 
+interface HttpRequestOptions {
+    showSuccessToast:boolean,
+    showErrorToast: boolean,
+    toastSuccessMsg:string,
+}
 
 interface SendRequestParams<R = unknown> {
   url?: string;
@@ -14,6 +20,9 @@ interface SendRequestParams<R = unknown> {
   data?: R | null;
   params?: Record<string, unknown>;
   headers?: Record<string, string>;
+  showSuccessToast?:boolean;
+  showErrorToast?:boolean;
+  toastSuccessMsg?:string
 }
  
 
@@ -29,7 +38,20 @@ interface ErrorResponse {
  
 }
 
-export function useHttpRequest<T = unknown>() {
+export function useHttpRequest<T = unknown>(
+
+ options: Partial<HttpRequestOptions> = {},
+) {
+  
+  const defaultOptions: HttpRequestOptions = {
+    showErrorToast: true,
+    showSuccessToast: true,
+    toastSuccessMsg:"Success Message",
+  };
+
+  const finalOptions = { ...defaultOptions, ...options };
+ 
+  console.log( finalOptions.showErrorToast)
 
   const authStore = useAuthStore(); // Получаем хранилище
   const data: Ref<T | null> = ref(null);
@@ -54,9 +76,14 @@ export function useHttpRequest<T = unknown>() {
       method = "GET",
       data: requestData = null,
       headers = {},
+      showErrorToast = finalOptions.showErrorToast,
+      showSuccessToast = finalOptions.showSuccessToast,
+      toastSuccessMsg = finalOptions.toastSuccessMsg,
+
     }: SendRequestParams<R> = {}
   ) : Promise<HttpResponse<R> | null> => {
-
+    
+    
     loading.value = true;
     error.value = null;
 
@@ -75,10 +102,18 @@ export function useHttpRequest<T = unknown>() {
       };
 
       const response = await axios<R>(config);
-
-
       data.value = response.data as unknown as T;
-
+      
+       console.log("УСПЕХ")
+       if(showSuccessToast) { 
+        showToast({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: toastSuccessMsg,
+              life: 3000
+            });
+      }
+ 
       return {
         data: response.data,
         status: response.status,
@@ -89,8 +124,16 @@ export function useHttpRequest<T = unknown>() {
 
       };
     } catch (err) {
-
+    console.log("ОШИБКА")
       handleError(err );
+      if(showErrorToast) {
+        showToast({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Message Content',
+              life: 3000
+            });
+        }
 
       return err;
     } finally {

@@ -24,6 +24,30 @@ export function updateCatalogURL(id:string, params?: Record<string, string|numbe
   });
 }
 
+//Article
+export function articleURL() {
+  return `${baseUrl}/articles`;
+}
+
+export function articleCreateURL() {
+  return `${baseUrl}/articles`;
+}
+
+export function articleItemShowURL(id: string) {
+  return `${baseUrl}/articles/${id}`;
+}
+
+//Удаление раздела каталога
+export function deleteArticleURL(id: string) {
+  return `${baseUrl}/articles/${id}`;
+}
+
+export function updateArticleURL(id:string, params?: Record<string, string|number|boolean>) {
+  return addQueryParams(`${baseUrl}/articles/${id}`, {
+    ...params,
+  });
+}
+
 // helper
 function addQueryParams(url: string, params?: Record<string, string|number|boolean>): string {
   if (!params) return url;

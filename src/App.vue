@@ -2,14 +2,13 @@
 import { RouterView, useRouter  } from 'vue-router';
 import {  onMounted } from 'vue';
 import { useAuthStore } from '@/store/auth';
-
-
-
-
+import { useToast } from 'primevue/usetoast';
+import { initToast } from '@/utils/showToast';
 
 
 const router = useRouter();
 const authStore = useAuthStore();
+
 
 onMounted(async () => {
   try {
@@ -26,6 +25,9 @@ onMounted(async () => {
     }
   }
 });
+
+const toast = useToast();
+initToast(toast);
 
 
 
