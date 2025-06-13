@@ -1,14 +1,6 @@
 <script setup lang="ts">
-/*
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-<<<<<<< HEAD
- */
-import  AuthForm  from '@/components/auth/AuthForm.vue';
-
-//const router = useRouter();
-const isReg = false;
-=======
 import { useAuthStore } from '@/store/auth';
 import ProgressSpinner from 'primevue/progressspinner';
 
@@ -42,16 +34,10 @@ const login = async () => {
 };
 
 
->>>>>>> dev
 </script>
 
 <template>
 
-<<<<<<< HEAD
-  <AuthForm :isReg="isReg">
-
-  </AuthForm>
-=======
   <form @submit.prevent="">
     <div class="flex flex-col gap-6">
       <div class="block text-2xl font-bold text-center my-6">Sign in to your account</div>
@@ -82,7 +68,6 @@ const login = async () => {
 
     </div>
   </form>
->>>>>>> dev
 
 
 

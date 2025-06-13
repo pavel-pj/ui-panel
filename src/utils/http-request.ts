@@ -9,7 +9,7 @@ type Method = AxiosRequestConfig["method"];
 
 
 interface SendRequestParams<R = unknown> {
-  url?: string;
+  url?: any;
   method?: Method;
   data?: R | null;
   params?: Record<string, unknown>;
