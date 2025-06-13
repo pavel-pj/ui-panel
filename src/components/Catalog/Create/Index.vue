@@ -3,20 +3,24 @@ import { computed, ref,onMounted } from 'vue';
 import { useHttpRequest } from '@/utils/http-request';
 import {
   catalogCreateURL,
-  catalogItemShowURL
+  catalogItemShowURL,
+  updateCatalogURL
 } from '@/config/request-urls';
 import {useRouter,useRoute} from 'vue-router';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 import PageSpiner from '@/components/common/spiner/PageSpiner.vue';
-
+import BreadCrumbs from '@/components/common/navigate/BreadCrumbs.vue';
 
 const router = useRouter();
 const route = useRoute();
+
 type Props = {
    isEdit:boolean
 };
 const props = defineProps<Props>();
+
 const itemId =  route?.params?.catatog_id as string;
+const isSpiner = ref<boolean>(false);
 
 interface Form {
   name: any,
@@ -30,14 +34,17 @@ const {
   data : itemData,
   //loading: isItemLoading ,
   sendRequest: getDataRequest
-} = useHttpRequest();
+} = useHttpRequest<{
+  id:string,
+  name:string
+}>();
 
 
 
 onMounted(async () => {
   if (props.isEdit) {
     await fetchItemCatalog();
-    formData.value = itemData.value?.[0];
+    formData.value.name = itemData.value?.[0]?.name;
 
 
   }
@@ -62,25 +69,47 @@ const {
 
 const createData = async() => {
 
-  isLoading.value = true;
+  isSpiner.value = true;
   const params = formData.value;
 
-  const res = await sendRequest({
-    url: catalogCreateURL(),
-    method: 'POST',
-    data: params
-  });
+  let res = ref<any>();
+
+  if (!props.isEdit) {
+
+    res.value = await sendRequest({
+      url: catalogCreateURL(),
+      method: 'POST',
+      data: params
+    });
 
 
-  if (res?.isOk) {
-    await router.push('catalog-index');
-    //isLoading.value = false;
+    if (res.value?.isOk) {
+      await router.push('catalog-index');
+
+    } else {
+      isSpiner.value = false;
+    }
   } else {
-    isLoading.value = false;
+
+    res.value = await sendRequest({
+      url: updateCatalogURL(itemId),
+      method: 'PATCH',
+      data: params
+    });
+
+    if (res.value?.isOk) {
+      await fetchItemCatalog();
+      isSpiner.value = false;
+    } else {
+      isSpiner.value = false;
+    }
+
   }
 };
 
 
+
+const itemName = computed(() => itemData.value?.[0]?.name || '');
 
 const isPageSpiner = computed(()=>{
   if (!props.isEdit) {
@@ -90,7 +119,12 @@ const isPageSpiner = computed(()=>{
 });
 
 const pageOptions = computed (()=>  {
-  const title = (props.isEdit) ? 'Edit catalog Item' : 'Create new Catalog';
+
+  const title =ref<string>('Create new Catalog');
+  if (props.isEdit) {
+    title.value = `Edit item ${itemName.value}` ;
+  }
+
   const buttonTitle = (props.isEdit) ? 'Update' : 'Create';
 
   return{
@@ -100,14 +134,25 @@ const pageOptions = computed (()=>  {
 
 });
 
+
+const itemsBreadCrumbs =computed(()=>{
+
+  return ([
+    { label: 'Catalog' ,route: { name: 'catalog-index' }  },
+    { label: itemName.value }
+  ]) ;
+});
+
 </script>
 
 <template>
 
-  <h1 class="text-3xl mb-12"> {{pageOptions.title}}</h1>
+<BreadCrumbs :items="itemsBreadCrumbs" />
+<PageSpiner :isSpiner="isPageSpiner" />
 
-  <PageSpiner :isSpiner="isPageSpiner" />
-  <div class="w-[400px] my-6" v-if="!isPageSpiner" >
+  <div  v-if="!isPageSpiner">
+  <h1 class="text-3xl mb-12"> {{pageOptions.title}}</h1>
+  <div class="w-[400px] my-6"  >
     <form @submit.prevent="">
       <div class="flex flex-col justify-start gap-4">
       <InputText type="text" v-model="formData.name" />
@@ -116,6 +161,6 @@ const pageOptions = computed (()=>  {
 
     </form>
   </div>
-
+</div>
  <modalSpiner :isSpiner="isLoading" ></modalSpiner>
 </template>

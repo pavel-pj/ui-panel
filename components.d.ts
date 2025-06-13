@@ -8,20 +8,23 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Badge: typeof import('primevue/badge')['default']
+    Breadcrumb: typeof import('primevue/breadcrumb')['default']
+    BreadCrumbs: typeof import('./src/components/common/navigate/BreadCrumbs.vue')['default']
     Button: typeof import('primevue/button')['default']
     Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
     Index: typeof import('./src/components/Catalog/Create/Index.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
-    LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
+    LeftSideBar: typeof import('./src/components/layouts/appLayout/LeftSideBar.vue')['default']
     Menu: typeof import('primevue/menu')['default']
     ModalSpiner: typeof import('./src/components/common/spiner/ModalSpiner.vue')['default']
     PageSpiner: typeof import('./src/components/common/spiner/PageSpiner.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Toast: typeof import('primevue/toast')['default']
-    TopPanel: typeof import('./src/components/TopPanel.vue')['default']
+    TopPanel: typeof import('./src/components/layouts/appLayout/TopPanel.vue')['default']
   }
   export interface GlobalDirectives {
     Ripple: typeof import('primevue/ripple')['default']

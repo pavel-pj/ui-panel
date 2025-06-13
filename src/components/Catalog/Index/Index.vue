@@ -10,6 +10,7 @@ import { useHttpRequest } from '@/utils/http-request';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 import PageSpiner from '@/components/common/spiner/PageSpiner.vue';
 import useConfirm from '@/composables/modals/Confirmer';
+import BreadCrumbs from '@/components/common/navigate/BreadCrumbs.vue';
 
 const router = useRouter();
 
@@ -21,7 +22,7 @@ interface CatalogItem {
 
 const confirm = useConfirm();
 const isSpiner = ref<boolean>(false);
-const margYspiner = '12px';
+const margYspiner = '24';
 
 const {
   data: catalog,
@@ -97,9 +98,17 @@ const onRowSelect =(event)=>{
   router.push(`catalog/edit/${event.data.id}`);
 };
 
+const itemsBreadCrumbs =computed(()=>{
+
+  return ([
+    { label: 'Catalog'   }]);
+});
+
 </script>
 <template>
 
+
+<BreadCrumbs :items="itemsBreadCrumbs" />
 <Button @click="create" label="Primary" rounded style="display:block">Create </Button>
 
 
