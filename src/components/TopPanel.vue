@@ -2,7 +2,6 @@
 import {computed} from 'vue';
 import {useRouter} from 'vue-router';
 import {useAuthStore} from '@/store/auth';
-import Button from 'primevue/button';
 
 
 
@@ -18,7 +17,7 @@ const logout = async () => {
 
 </script  >
 <template>
-  <div class="flex items-center justify-between gap-2 px-6 py-4">
+  <div class="flex items-center justify-between gap-2 p-8 ">
     <div class="flex-grow">
 
     </div>

@@ -8,23 +8,36 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-<<<<<<< HEAD
+
     AuthForm: typeof import('./src/components/auth/AuthForm.vue')['default']
-=======
     Button: typeof import('primevue/button')['default']
     Column: typeof import('primevue/column')['default']
+    ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
->>>>>>> dev
-    Index: typeof import('./src/components/Catalog/Index/Index.vue')['default']
-    LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
+
+ 
+    //Index: typeof import('./src/components/Catalog/Create/Index.vue')['default']
+    Input: typeof import('./src/components/common/forms/Input.vue')['default']
+    InputText: typeof import('primevue/inputtext')['default']
+   //LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
+    ModalSpiner: typeof import('./src/components/common/spiner/ModalSpiner.vue')['default']
+    ProgressSpinner: typeof import('primevue/progressspinner')['default']
+ 
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Toast: typeof import('primevue/toast')['default']
     TopPanel: typeof import('./src/components/TopPanel.vue')['default']
+    UApp: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
+    UButton: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
+    UInput: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Input.vue')['default']
+    UNavigationMenu: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/NavigationMenu.vue')['default']
+    UProgress: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Progress.vue')['default']
+    UTable: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Table.vue')['default']
   }
-<<<<<<< HEAD
-=======
+
   export interface GlobalDirectives {
     Ripple: typeof import('primevue/ripple')['default']
   }
->>>>>>> dev
+
 }

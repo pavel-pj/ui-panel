@@ -11,12 +11,14 @@ import TopPanel from '@/components/TopPanel.vue';
         </div>
       </div>
       <div class="col-span-5 ">
-        <div class="bg-white p-4 rounded-xl h-full shadow-md ">
-          <main>
+        <div class="bg-white rounded-xl h-full shadow-md border-bottom-1">
+          <main >
+            <div class="border-b-1 border-gray-300">
             <TopPanel />
-
+          </div>
+              <section class="p-8">
               <router-view></router-view>
-
+          </section>
           </main>
         </div>
       </div>

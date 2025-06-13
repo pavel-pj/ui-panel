@@ -1,12 +1,13 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
-import Components from 'unplugin-vue-components/vite';
 import eslint from 'vite-plugin-eslint'; // Добавьте этот импорт
-import checker from 'vite-plugin-checker'
-import { PrimeVueResolver } from '@primevue/auto-import-resolver';
+import checker from 'vite-plugin-checker';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+import Components from 'unplugin-vue-components/vite';
+import { PrimeVueResolver } from '@primevue/auto-import-resolver';
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -17,12 +18,14 @@ export default defineConfig({
       typescript: true, // Включает проверку TypeScript
       vueTsc: true,     // Проверка типов в .vue файлах
     }),
+  
     tailwindcss(),
-    Components({
+     Components({
       resolvers: [
         PrimeVueResolver()
       ]
     }),
+
     eslint({
       fix: true,
       lintOnStart: true,
@@ -33,6 +36,7 @@ export default defineConfig({
       }
     }),
   ],
+
 
   build: {
     rollupOptions: {

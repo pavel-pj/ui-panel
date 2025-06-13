@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/auth';
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+
     {
       path: '/',
       redirect: '/dashboard'
@@ -14,6 +15,7 @@ const router = createRouter({
       path: '/login',
       redirect: { name: 'login' } // Перенаправляем на именованный маршрут
     },
+
     {
       path: '/auth',
       component: () => import('@/layouts/AuthLayout.vue'),
@@ -24,6 +26,7 @@ const router = createRouter({
           name: 'login',
           component: () => import('@/views/auth/Login.vue')
         },
+ 
         {
           path: 'register',
           name: 'register',
@@ -44,9 +47,14 @@ const router = createRouter({
           component: () => import('@/views/dashboard/Index.vue')
         },
        {
-         path: 'catalog-articles',
-         name: 'catalog-articles',
+         path: 'catalog-index',
+         name: 'catalog-index',
          component: () => import('@/components/Catalog/Index/Index.vue')
+       },
+       {
+         path: 'catalog-create',
+         name: 'catalog-create',
+         component: () => import('@/components/Catalog/Create/Index.vue')
        }
       ]
     }
@@ -55,6 +63,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  console.log('aaaaa');
   console.log('Trying to navigate to:', to.path, 'matched:', to.matched)
   const authStore = useAuthStore();
 
@@ -63,11 +72,12 @@ router.beforeEach(async (to, from, next) => {
 
   // Если маршрут требует аутентификации
   if (to.meta.requiresAuth) {
-    console.log("HERER")
+    console.log("начинаем авторизацию")
     try {
 
       // Если есть токен, но нет данных пользователя - загружаем их
       if (authStore.token  && !authStore.user ) {
+        console.log("ЕСТЬ ТОКЕН но нет юзера")
           await authStore.fetchUser();
       }
 
