@@ -10,7 +10,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
     Column: typeof import('primevue/column')['default']
-    Confermer: typeof import('./src/components/common/modals/Confermer.vue')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
     Index: typeof import('./src/components/Catalog/Create/Index.vue')['default']

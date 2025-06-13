@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import axios  from "axios";
-import type { AxiosRequestConfig } from "axios";
+import type { AxiosRequestConfig,AxiosError } from "axios";
 import type { Ref } from "vue";
 import { useAuthStore } from '@/store/auth'; // Добавляем импорт хранилища
 
@@ -15,18 +15,18 @@ interface SendRequestParams<R = unknown> {
   params?: Record<string, unknown>;
   headers?: Record<string, string>;
 }
-/*
-interface ErrorResponse {
-  message: string;
-  // Add other properties if your API returns more fields
-}
-*/
+ 
 
 interface HttpResponse<T = unknown> {
   data: T,
   status: number,
   isOk: boolean,
+}
 
+
+interface ErrorResponse {
+  message: string;
+ 
 }
 
 export function useHttpRequest<T = unknown>() {
@@ -36,9 +36,15 @@ export function useHttpRequest<T = unknown>() {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  const handleError = (err: any) => {
-    const errorMessage = err.response?.data?.message || err.message;
-    error.value = errorMessage;
+  const handleError = (err: unknown) => {
+    if (axios.isAxiosError(err)) {
+      const axiosError = err as AxiosError<ErrorResponse>;
+      error.value = axiosError.response?.data?.message || axiosError.message;
+    } else if (err instanceof Error) {
+      error.value = err.message;
+    } else {
+      error.value = 'Unknown error occurred';
+    }
     loading.value = false;
   };
 

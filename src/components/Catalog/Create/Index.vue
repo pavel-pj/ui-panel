@@ -16,7 +16,7 @@ type Props = {
    isEdit:boolean
 };
 const props = defineProps<Props>();
-const itemId =  route?.params?.catatog_id;
+const itemId =  route?.params?.catatog_id as string;
 
 interface Form {
   name: any,

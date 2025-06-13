@@ -9,7 +9,7 @@ export function catalogCreateURL() {
   return `${baseUrl}/catalogs`;
 }
 
-export function catalogItemShowURL(id: any) {
+export function catalogItemShowURL(id: string) {
   return `${baseUrl}/catalogs/${id}`;
 }
 

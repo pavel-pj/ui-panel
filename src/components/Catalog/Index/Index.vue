@@ -7,7 +7,6 @@ import {
   deleteCatalogURL
 } from '@/config/request-urls';
 import { useHttpRequest } from '@/utils/http-request';
-import ProgressSpinner from 'primevue/progressspinner';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 import PageSpiner from '@/components/common/spiner/PageSpiner.vue';
 import useConfirm from '@/composables/modals/Confirmer';
@@ -22,11 +21,10 @@ interface CatalogItem {
 
 const confirm = useConfirm();
 const isSpiner = ref<boolean>(false);
-const margYspiner = '16px';
+const margYspiner = '12px';
 
 const {
   data: catalog,
-  loading,
   sendRequest: sendData
 } = useHttpRequest<CatalogItem[]>();
 
@@ -38,8 +36,6 @@ const isPageSpiner = computed (()=>{
 });
 
 const {
-  loading: sendDeleteLoading,
-  error: sendDeleteError,
   sendRequest: sendDelete
 } = useHttpRequest();
 
@@ -107,7 +103,7 @@ const onRowSelect =(event)=>{
 <Button @click="create" label="Primary" rounded style="display:block">Create </Button>
 
 
-  <PageSpiner   :isSpiner="isPageSpiner"  />
+  <PageSpiner :my="margYspiner"  :isSpiner="isPageSpiner"  />
 
 
  <div class="card pt-6 " v-if="catalog" >
