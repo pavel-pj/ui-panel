@@ -2,15 +2,14 @@
 import { computed, ref,onMounted } from 'vue';
 import { useHttpRequest } from '@/utils/http-request';
 import {
-  catalogCreateURL,
-  catalogItemShowURL,
-  updateCatalogURL
+  articleCreateURL,
+  articleItemShowURL,
+  updateArticleURL
 } from '@/config/request-urls';
 import {useRouter,useRoute} from 'vue-router';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 import PageSpiner from '@/components/common/spiner/PageSpiner.vue';
 import BreadCrumbs from '@/components/common/navigate/BreadCrumbs.vue';
-import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,15 +19,21 @@ type Props = {
 };
 const props = defineProps<Props>();
 
-const itemId =  route?.params?.catatog_id as string;
+const itemId =  route?.params?.article_id as string;
 const isSpiner = ref<boolean>(false);
 
 interface Form {
-  name: any,
+  name: string,
+  title:string
+  slug: string
+  catalog_id: number
 }
 
 const formData = ref<Form> ({
-  name: ''
+  name:'',
+  title:'',
+  slug: '',
+  catalog_id: 0
 });
 
 const {
@@ -37,27 +42,27 @@ const {
   sendRequest: getDataRequest
 } = useHttpRequest<{
   id:string,
-  name:string
-}>({
-  showSuccessToast:false,
-  showErrorToast: false
-});
+  name:string,
+  title:string
+  slug: string
+  catalog_id: number
+}>();
 
 
 
 onMounted(async () => {
   if (props.isEdit) {
-    await fetchItemCatalog();
+    await fetchItemArticle();
     formData.value.name = itemData.value?.[0]?.name;
 
 
   }
 });
 
-const fetchItemCatalog = async () => {
+const fetchItemArticle = async () => {
 
   if (itemId) {
-    await getDataRequest({ url: catalogItemShowURL(itemId) });
+    await getDataRequest({ url: articleItemShowURL(itemId) });
   }
 };
 
@@ -66,10 +71,7 @@ const {
   loading: isLoading ,
   // error ,
   sendRequest
-} = useHttpRequest({
-  showSuccessToast:true,
-  showErrorToast: true
-});
+} = useHttpRequest();
 
 
 
@@ -84,14 +86,14 @@ const createData = async() => {
   if (!props.isEdit) {
 
     res.value = await sendRequest({
-      url: catalogCreateURL(),
+      url: articleCreateURL(),
       method: 'POST',
       data: params
     });
 
 
     if (res.value?.isOk) {
-      await router.push('catalog-index');
+      await router.push('article-index');
 
     } else {
       isSpiner.value = false;
@@ -99,13 +101,13 @@ const createData = async() => {
   } else {
 
     res.value = await sendRequest({
-      url: updateCatalogURL(itemId),
+      url: updateArticleURL(itemId),
       method: 'PATCH',
       data: params
     });
 
     if (res.value?.isOk) {
-      await fetchItemCatalog();
+      await fetchItemArticle();
       isSpiner.value = false;
     } else {
       isSpiner.value = false;
@@ -127,7 +129,7 @@ const isPageSpiner = computed(()=>{
 
 const pageOptions = computed (()=>  {
 
-  const title =ref<string>('Create new Catalog');
+  const title =ref<string>('Create new Article');
   if (props.isEdit) {
     title.value = `Edit item ${itemName.value}` ;
   }
@@ -145,7 +147,7 @@ const pageOptions = computed (()=>  {
 const itemsBreadCrumbs =computed(()=>{
 
   return ([
-    { label: 'Catalog' ,route: { name: 'catalog-index' }  },
+    { label: 'Articles' ,route: { name: 'article-index' }  },
     { label: itemName.value }
   ]) ;
 });
