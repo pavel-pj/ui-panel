@@ -23,5 +23,7 @@ import TopPanel from '@/components/TopPanel.vue';
         </div>
       </div>
     </div>
+    <Toast />
+   <ConfirmDialog></ConfirmDialog>
 </body>
 </template>
