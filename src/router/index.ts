@@ -54,7 +54,18 @@ const router = createRouter({
        {
          path: 'catalog-create',
          name: 'catalog-create',
-         component: () => import('@/components/Catalog/Create/Index.vue')
+         component: () => import('@/components/Catalog/Create/Index.vue'),
+         props: {
+          isEdit:false
+         }
+       },
+       {
+         path: 'catalog/edit/:catatog_id',
+         name: 'catalog-edit',
+         component: () => import('@/components/Catalog/Create/Index.vue'),
+         props: {
+          isEdit:true
+         }
        }
       ]
     }

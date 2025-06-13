@@ -9,8 +9,11 @@ export function catalogCreateURL() {
   return `${baseUrl}/catalogs`;
 }
 
+export function catalogItemShowURL(id: any) {
+  return `${baseUrl}/catalogs/${id}`;
+}
 
-//Удаление rкаталога
+//Удаление раздела каталога
 export function deleteCatalogURL(id: string) {
   return `${baseUrl}/catalogs/${id}`;
 }

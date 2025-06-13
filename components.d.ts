@@ -17,6 +17,7 @@ declare module 'vue' {
     LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
     Menu: typeof import('primevue/menu')['default']
     ModalSpiner: typeof import('./src/components/common/spiner/ModalSpiner.vue')['default']
+    PageSpiner: typeof import('./src/components/common/spiner/PageSpiner.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Toast: typeof import('primevue/toast')['default']
