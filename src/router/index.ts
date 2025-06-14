@@ -26,15 +26,12 @@ const router = createRouter({
           name: 'login',
           component: () => import('@/views/auth/Login.vue')
         },
-
-        /*
+ 
         {
           path: 'register',
           name: 'register',
           component: () => import('@/views/auth/Register.vue')
         }
-
-         */
       ]
     },
 
@@ -69,6 +66,12 @@ const router = createRouter({
          props: {
           isEdit:true
          }
+       },
+       {
+         path: 'catalog/test',
+         name: 'catalog-test',
+         component: () => import('@/components/Catalog/Create/Test.vue'),
+          
        },
        {
          path: 'article-index',

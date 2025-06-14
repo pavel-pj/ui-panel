@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AuthForm: typeof import('./src/components/auth/AuthForm.vue')['default']
     Breadcrumb: typeof import('primevue/breadcrumb')['default']
     BreadCrumbs: typeof import('./src/components/common/navigate/BreadCrumbs.vue')['default']
     Button: typeof import('primevue/button')['default']
@@ -26,6 +27,7 @@ declare module 'vue' {
     PageSpiner: typeof import('./src/components/common/spiner/PageSpiner.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Test: typeof import('./src/components/Catalog/Create/Test.vue')['default']
     Toast: typeof import('primevue/toast')['default']
     TopPanel: typeof import('./src/components/layouts/appLayout/TopPanel.vue')['default']
   }

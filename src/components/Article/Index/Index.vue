@@ -27,7 +27,10 @@ const margYspiner = '24';
 const {
   data: catalog,
   sendRequest: sendData
-} = useHttpRequest<ArticleItem[]>();
+} = useHttpRequest<ArticleItem[]>({
+  showSuccessToast:false,
+  showErrorToast: false
+});
 
 const tableData = ref<ArticleItem[]>([]);
 
@@ -38,7 +41,7 @@ const isPageSpiner = computed (()=>{
 
 const {
   sendRequest: sendDelete
-} = useHttpRequest();
+} = useHttpRequest( );
 
 
 const dataToDelete = ref<any>('');
@@ -113,8 +116,6 @@ const itemsBreadCrumbs =computed(()=>{
 
 
   <PageSpiner :my="margYspiner"  :isSpiner="isPageSpiner"  />
-
-
  <div class="card pt-6 " v-if="catalog" >
         <DataTable stripedRows
         selectionMode="single" dataKey="id" :metaKeySelection="false"

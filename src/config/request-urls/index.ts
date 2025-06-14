@@ -48,6 +48,15 @@ export function updateArticleURL(id:string, params?: Record<string, string|numbe
   });
 }
 
+//dictionaries
+export function catalogDictionariesURL(dicntionaryType: string) {
+  return addQueryParams(`${baseUrl}/dictionaries`, {
+    typeDictionary: dicntionaryType
+  });
+}
+
+
+
 // helper
 function addQueryParams(url: string, params?: Record<string, string|number|boolean>): string {
   if (!params) return url;
