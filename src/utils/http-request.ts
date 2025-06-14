@@ -44,8 +44,8 @@ export function useHttpRequest<T = unknown>(
 ) {
   
   const defaultOptions: HttpRequestOptions = {
-    showErrorToast: true,
-    showSuccessToast: true,
+    showErrorToast: false,
+    showSuccessToast: false,
     toastSuccessMsg:"Success Message",
   };
 
@@ -104,7 +104,7 @@ export function useHttpRequest<T = unknown>(
       const response = await axios<R>(config);
       data.value = response.data as unknown as T;
       
-       console.log("УСПЕХ")
+       
        if(showSuccessToast) { 
         showToast({
               severity: 'success',

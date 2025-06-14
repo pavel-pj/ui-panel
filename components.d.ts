@@ -8,23 +8,26 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
- 
     AuthForm: typeof import('./src/components/auth/AuthForm.vue')['default']
-    Badge: typeof import('primevue/badge')['default']
     Breadcrumb: typeof import('primevue/breadcrumb')['default']
     BreadCrumbs: typeof import('./src/components/common/navigate/BreadCrumbs.vue')['default']
     Button: typeof import('primevue/button')['default']
     Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
-    Index: typeof import('./src/components/Catalog/Create/Index.vue')['default']
+    Dropdown: typeof import('primevue/dropdown')['default']
+    Form: typeof import('@primevue/forms/form')['default']
+    Index: typeof import('./src/components/Article/Create/Index.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LeftSideBar: typeof import('./src/components/layouts/appLayout/LeftSideBar.vue')['default']
     Menu: typeof import('primevue/menu')['default']
+    Message: typeof import('primevue/message')['default']
     ModalSpiner: typeof import('./src/components/common/spiner/ModalSpiner.vue')['default']
+    MultiSelect: typeof import('primevue/multiselect')['default']
     PageSpiner: typeof import('./src/components/common/spiner/PageSpiner.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Test: typeof import('./src/components/Catalog/Create/Test.vue')['default']
     Toast: typeof import('primevue/toast')['default']
     TopPanel: typeof import('./src/components/layouts/appLayout/TopPanel.vue')['default']
   }

@@ -10,7 +10,9 @@ import {useRouter,useRoute} from 'vue-router';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 import PageSpiner from '@/components/common/spiner/PageSpiner.vue';
 import BreadCrumbs from '@/components/common/navigate/BreadCrumbs.vue';
-import { useToast } from 'primevue/usetoast';
+import { Form, Field } from 'vee-validate';
+import { z } from 'zod';
+import { toTypedSchema } from '@vee-validate/zod';
 
 const router = useRouter();
 const route = useRoute();
@@ -23,14 +25,6 @@ const props = defineProps<Props>();
 const itemId =  route?.params?.catatog_id as string;
 const isSpiner = ref<boolean>(false);
 
-interface Form {
-  name: any,
-}
-
-const formData = ref<Form> ({
-  name: ''
-});
-
 const {
   data : itemData,
   //loading: isItemLoading ,
@@ -38,17 +32,14 @@ const {
 } = useHttpRequest<{
   id:string,
   name:string
-}>({
-  showSuccessToast:false,
-  showErrorToast: false
-});
+}>();
 
 
 
 onMounted(async () => {
   if (props.isEdit) {
     await fetchItemCatalog();
-    formData.value.name = itemData.value?.[0]?.name;
+
 
 
   }
@@ -71,13 +62,10 @@ const {
   showErrorToast: true
 });
 
-
-
-
-const createData = async() => {
+const sendData = async(data:any) => {
 
   isSpiner.value = true;
-  const params = formData.value;
+  const params = data;
 
   let res = ref<any>();
 
@@ -114,8 +102,6 @@ const createData = async() => {
   }
 };
 
-
-
 const itemName = computed(() => itemData.value?.[0]?.name || '');
 
 const isPageSpiner = computed(()=>{
@@ -150,24 +136,51 @@ const itemsBreadCrumbs =computed(()=>{
   ]) ;
 });
 
+
+// Схема валидации
+const schema = toTypedSchema(
+  z.object({
+    name: z.string()
+      .min(1, '"name" is required')
+      .max(32, '"name" is too long')
+
+  })
+);
+
 </script>
 
 <template>
+
 
 <BreadCrumbs :items="itemsBreadCrumbs" />
 <PageSpiner :isSpiner="isPageSpiner" />
 
   <div  v-if="!isPageSpiner">
   <h1 class="text-3xl mb-12"> {{pageOptions.title}}</h1>
-  <div class="w-[400px] my-6"  >
-    <form @submit.prevent="">
-      <div class="flex flex-col justify-start gap-4">
-      <InputText type="text" v-model="formData.name" />
-      <Button @click="createData" rounded > {{pageOptions.buttonTitle}} </Button>
-    </div>
+  <div class="w-[400px] my-6 "  >
 
-    </form>
+    <Form @submit="sendData" :validation-schema="schema" class="flex flex-col gap-4 w-full ">
+      <div class="flex flex-col gap-1">
+        <Field name="name" v-slot="{ field, errors }">
+          <InputText
+            v-bind="field"
+            placeholder="name"
+            :class="{ 'p-invalid': errors.length }"
+          />
+          <Message v-if="errors.length" severity="error" size="small" variant="simple">
+            {{ errors[0] }}
+          </Message>
+        </Field>
+      </div>
+
+
+      <Button type="submit"  label="Submit" />
+    </Form>
+
   </div>
 </div>
  <modalSpiner :isSpiner="isLoading" ></modalSpiner>
+
+
+
 </template>

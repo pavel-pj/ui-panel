@@ -27,10 +27,7 @@ const margYspiner = '24';
 const {
   data: catalog,
   sendRequest: sendData
-} = useHttpRequest<CatalogItem[]>({
-  showSuccessToast:false,
-  showErrorToast: false
-});
+} = useHttpRequest<CatalogItem[]>( );
 
 const tableData = ref<CatalogItem[]>([]);
 
@@ -41,10 +38,7 @@ const isPageSpiner = computed (()=>{
 
 const {
   sendRequest: sendDelete
-} = useHttpRequest({
-  showSuccessToast:false,
-  showErrorToast: true
-});
+} = useHttpRequest( );
 
 
 const dataToDelete = ref<any>('');

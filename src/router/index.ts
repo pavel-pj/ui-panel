@@ -68,6 +68,12 @@ const router = createRouter({
          }
        },
        {
+         path: 'catalog/test',
+         name: 'catalog-test',
+         component: () => import('@/components/Catalog/Create/Test.vue'),
+          
+       },
+       {
          path: 'article-index',
          name: 'article-index',
          component: () => import('@/components/Article/Index/Index.vue')

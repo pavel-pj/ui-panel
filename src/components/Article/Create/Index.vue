@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref,onMounted } from 'vue';
+import { computed, ref,onMounted,watch } from 'vue';
 import { useHttpRequest } from '@/utils/http-request';
 import {
   articleCreateURL,
@@ -10,6 +10,11 @@ import {useRouter,useRoute} from 'vue-router';
 import modalSpiner from '@/components/common/spiner/ModalSpiner.vue';
 import PageSpiner from '@/components/common/spiner/PageSpiner.vue';
 import BreadCrumbs from '@/components/common/navigate/BreadCrumbs.vue';
+import { Form, Field } from 'vee-validate';
+import { z } from 'zod';
+import { toTypedSchema } from '@vee-validate/zod';
+import Select from 'primevue/select';
+import { useDictionariesStore } from '@/store/dictionaries';
 
 const router = useRouter();
 const route = useRoute();
@@ -17,24 +22,22 @@ const route = useRoute();
 type Props = {
    isEdit:boolean
 };
+
+const {
+  dictionaries,
+  getDictionaryByType,
+  fetchDictionary
+} = useDictionariesStore();
+
+
+
+// Или альтернативный вариант:
+const catalogOptions = computed(() => getDictionaryByType('catalog'));
+
 const props = defineProps<Props>();
 
 const itemId =  route?.params?.article_id as string;
 const isSpiner = ref<boolean>(false);
-
-interface Form {
-  name: string,
-  title:string
-  slug: string
-  catalog_id: number
-}
-
-const formData = ref<Form> ({
-  name:'',
-  title:'',
-  slug: '',
-  catalog_id: 0
-});
 
 const {
   data : itemData,
@@ -51,16 +54,17 @@ const {
 
 
 onMounted(async () => {
-  if (props.isEdit) {
-    await fetchItemArticle();
-    formData.value.name = itemData.value?.[0]?.name;
-
-
+  if (!dictionaries.value) {
+    await fetchDictionary('catalog');
   }
+  if (props.isEdit) {
+    console.log('SDFSDF');
+    await fetchItemArticle();
+  }
+
 });
 
 const fetchItemArticle = async () => {
-
   if (itemId) {
     await getDataRequest({ url: articleItemShowURL(itemId) });
   }
@@ -71,15 +75,18 @@ const {
   loading: isLoading ,
   // error ,
   sendRequest
-} = useHttpRequest();
+} = useHttpRequest({
+  showErrorToast:true,
+  showSuccessToast:true
+});
 
 
 
 
-const createData = async() => {
+const sendData = async(data:any) => {
 
   isSpiner.value = true;
-  const params = formData.value;
+  const params = data;
 
   let res = ref<any>();
 
@@ -124,7 +131,9 @@ const isPageSpiner = computed(()=>{
   if (!props.isEdit) {
     return false;
   }
-  return (!itemData.value) ? true : false;
+
+
+  return (!itemData.value && !dictionaries.value ) ? true : false;
 });
 
 const pageOptions = computed (()=>  {
@@ -152,6 +161,57 @@ const itemsBreadCrumbs =computed(()=>{
   ]) ;
 });
 
+// Схема валидации
+const schema = toTypedSchema(
+  z.object({
+    name: z.string()
+      .min(1, '"name" is required')
+      .max(255, '"name" is too long'),
+
+    title: z.string()
+      .min(1, '"title" is required')
+      .max(255, '"title" is too long'),
+
+    slug: z.string()
+      .min(1, '"title" is required')
+      .max(255, '"title" is too long')
+      .regex(/^[a-z0-9-]+$/, 'Should have only latin letters and "-", no spaces'),
+
+    catalog_id: z.number({
+      required_error: 'Check a category',
+      invalid_type_error: 'Requires to check a catalog'
+    }).min(1, 'Requires to check a catalog')
+
+  })
+
+);
+
+const initialValues = ref<{
+  name:string  ,
+  title:string  ,
+  slug:string,
+  catalog_id: any
+}>(
+  {
+    name:'',
+    title:'',
+    slug:'',
+    catalog_id: null
+  }
+);
+
+watch(()=>itemData.value,
+  (newValue)=>{
+    if (props.isEdit && itemData.value) {
+      initialValues.value.name = itemData.value.name;
+      initialValues.value.title = itemData.value.title;
+      initialValues.value.slug = itemData.value.slug;
+      initialValues.value.catalog_id = itemData.value.catalog_id;
+    }
+
+  });
+
+
 </script>
 
 <template>
@@ -161,15 +221,70 @@ const itemsBreadCrumbs =computed(()=>{
 
   <div  v-if="!isPageSpiner">
   <h1 class="text-3xl mb-12"> {{pageOptions.title}}</h1>
-  <div class="w-[400px] my-6"  >
-    <form @submit.prevent="">
-      <div class="flex flex-col justify-start gap-4">
-      <InputText type="text" v-model="formData.name" />
-      <Button @click="createData" rounded > {{pageOptions.buttonTitle}} </Button>
-    </div>
+  <div class="w-[700px] my-6"  >
 
-    </form>
+   <Form @submit="sendData"
+    :validation-schema="schema"
+    :initial-values="initialValues"
+      class="flex flex-col gap-4 w-full ">
+
+        <Field name="name" v-slot="{ field, errors }">
+          <InputText
+            v-bind="field"
+            placeholder="Name"
+            :class="{ 'p-invalid': errors.length }"
+          />
+          <Message v-if="errors.length" severity="error" size="small" variant="simple">
+            {{ errors[0] }}
+          </Message>
+        </Field>
+
+         <Field name="title" v-slot="{ field, errors }">
+          <InputText
+            v-bind="field"
+            placeholder="Title"
+            :class="{ 'p-invalid': errors.length }"
+          />
+          <Message v-if="errors.length" severity="error" size="small" variant="simple">
+            {{ errors[0] }}
+          </Message>
+        </Field>
+
+        <Field name="slug" v-slot="{ field, errors }">
+          <InputText
+            v-bind="field"
+            placeholder="Slug"
+            :class="{ 'p-invalid': errors.length }"
+          />
+          <Message v-if="errors.length" severity="error" size="small" variant="simple">
+            {{ errors[0] }}
+          </Message>
+        </Field>
+
+     <Field name="catalog_id" v-slot="{ field, value, errors }">
+      <Select
+        :modelValue="value"
+        @update:modelValue="field.onChange"
+        :options="catalogOptions"
+        optionLabel="name"
+        optionValue="code"
+        placeholder="Выберите категорию"
+        class="w-full"
+        :class="{ 'p-invalid': errors.length }"
+      />
+      <Message v-if="errors.length" severity="error">
+        {{ errors[0] }}
+  </Message>
+</Field>
+
+      <Button type="submit"  label="Submit" class="custom-button"/>
+    </Form>
   </div>
 </div>
  <modalSpiner :isSpiner="isLoading" ></modalSpiner>
 </template>
+<style scoped>
+.custom-button{
+  width:250px;
+}
+</style>
