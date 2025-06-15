@@ -39,9 +39,6 @@ const {
 onMounted(async () => {
   if (props.isEdit) {
     await fetchItemCatalog();
-
-
-
   }
 });
 
@@ -147,6 +144,10 @@ const schema = toTypedSchema(
   })
 );
 
+const initialValues = computed(() => ({
+  name: props.isEdit ? itemData.value?.[0]?.name || '' : ''
+}));
+
 </script>
 
 <template>
@@ -159,7 +160,10 @@ const schema = toTypedSchema(
   <h1 class="text-3xl mb-12"> {{pageOptions.title}}</h1>
   <div class="w-[400px] my-6 "  >
 
-    <Form @submit="sendData" :validation-schema="schema" class="flex flex-col gap-4 w-full ">
+    <Form @submit="sendData"
+    :validation-schema="schema"
+    :initial-values="initialValues"
+    class="flex flex-col gap-4 w-full ">
       <div class="flex flex-col gap-1">
         <Field name="name" v-slot="{ field, errors }">
           <InputText

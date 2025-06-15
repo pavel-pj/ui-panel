@@ -88,6 +88,7 @@ const sendData = async(data:any) => {
   isSpiner.value = true;
   const params = data;
 
+
   let res = ref<any>();
 
   if (!props.isEdit) {
@@ -106,6 +107,7 @@ const sendData = async(data:any) => {
       isSpiner.value = false;
     }
   } else {
+
 
     res.value = await sendRequest({
       url: updateArticleURL(itemId),
@@ -186,31 +188,19 @@ const schema = toTypedSchema(
 
 );
 
-const initialValues = ref<{
-  name:string  ,
-  title:string  ,
-  slug:string,
-  catalog_id: any
-}>(
-  {
-    name:'',
-    title:'',
-    slug:'',
-    catalog_id: null
-  }
-);
 
-watch(()=>itemData.value,
-  (newValue)=>{
-    if (props.isEdit && itemData.value) {
-      initialValues.value.name = itemData.value.name;
-      initialValues.value.title = itemData.value.title;
-      initialValues.value.slug = itemData.value.slug;
-      initialValues.value.catalog_id = itemData.value.catalog_id;
-    }
-
-  });
-
+const initialValues = computed(() => {
+  const name = props.isEdit ? itemData.value?.[0]?.name || '' : '';
+  const title = props.isEdit ? itemData.value?.[0]?.title || '' : '';
+  const slug = props.isEdit ? itemData.value?.[0]?.slug || '' : '';
+  const catalog_id = props.isEdit ? itemData.value?.[0]?.catalog_id || '' : '';
+  return {
+    name,
+    title,
+    slug,
+    catalog_id
+  };
+});
 
 </script>
 
@@ -228,7 +218,9 @@ watch(()=>itemData.value,
     :initial-values="initialValues"
       class="flex flex-col gap-4 w-full ">
 
-        <Field name="name" v-slot="{ field, errors }">
+      <div class="flex gap-2 flex-col">
+        <label for="name" class="font-medium">Name <span class="px-2 font-bold text-red-700"> * </span></label>
+        <Field name="name" v-slot="{ field, errors }" >
           <InputText
             v-bind="field"
             placeholder="Name"
@@ -238,7 +230,9 @@ watch(()=>itemData.value,
             {{ errors[0] }}
           </Message>
         </Field>
-
+      </div>
+     <div class="flex gap-2 flex-col">
+        <label for="title" class="font-medium">Title <span class="px-2 font-bold text-red-700"> * </span></label>
          <Field name="title" v-slot="{ field, errors }">
           <InputText
             v-bind="field"
@@ -249,7 +243,10 @@ watch(()=>itemData.value,
             {{ errors[0] }}
           </Message>
         </Field>
+      </div>
 
+       <div class="flex gap-2 flex-col">
+        <label for="slug" class="font-medium">Slug <span class="px-2 font-bold text-red-700"> * </span></label>
         <Field name="slug" v-slot="{ field, errors }">
           <InputText
             v-bind="field"
@@ -260,7 +257,10 @@ watch(()=>itemData.value,
             {{ errors[0] }}
           </Message>
         </Field>
+      </div>
 
+    <div class="flex gap-2 flex-col">
+      <label for="catalog_od" class="font-medium">Catalog <span class="px-2 font-bold text-red-700"> * </span></label>
      <Field name="catalog_id" v-slot="{ field, value, errors }">
       <Select
         :modelValue="value"
@@ -274,8 +274,9 @@ watch(()=>itemData.value,
       />
       <Message v-if="errors.length" severity="error">
         {{ errors[0] }}
-  </Message>
-</Field>
+      </Message>
+      </Field>
+   </div>
 
       <Button type="submit"  label="Submit" class="custom-button"/>
     </Form>
