@@ -15,6 +15,8 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    Editor: typeof import('./src/components/Tiptap/Editor.vue')['default']
+    Editor2: typeof import('./src/components/Tiptap/Editor-2.vue')['default']
     Index: typeof import('./src/components/Article/Index/Index.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LeftSideBar: typeof import('./src/components/layouts/appLayout/LeftSideBar.vue')['default']
@@ -24,6 +26,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Test: typeof import('./src/components/Catalog/Create/Test.vue')['default']
+    Tiptap: typeof import('./src/components/Tiptap/Tiptap.vue')['default']
     Toast: typeof import('primevue/toast')['default']
     TopPanel: typeof import('./src/components/layouts/appLayout/TopPanel.vue')['default']
   }

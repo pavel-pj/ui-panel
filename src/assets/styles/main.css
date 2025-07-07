@@ -1,5 +1,7 @@
 @import "tailwindcss";
- 
+@import "./variables.scss"; /* Импорт переменных перед их использованием */
+@import "./editor.css";
+@import "./editor-tags.scss";
 
 
 .n-button {
@@ -7,5 +9,9 @@
   padding: 0 20px; /* Отступы внутри кнопки */
   height: 40px;    /* Высота кнопки */
 }
+ 
+
+
+
 
  
