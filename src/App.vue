@@ -4,6 +4,7 @@ import {  onMounted } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import { useToast } from 'primevue/usetoast';
 import { initToast } from '@/utils/showToast';
+import Editor from '@/components/Editor.vue';
 
 
 const router = useRouter();
@@ -18,10 +19,10 @@ onMounted(async () => {
     }
   } catch (error) {
     if (error.response?.status === 401) {
-      console.log('Пользователь не авторизован, перенаправляем на /login');
+      //console.log('Пользователь не авторизован, перенаправляем на /login');
       router.push({ name: 'login' });
     } else {
-      console.error('Ошибка при проверке аутентификации:', error);
+      //console.error('Ошибка при проверке аутентификации:', error);
     }
   }
 });

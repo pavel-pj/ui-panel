@@ -208,7 +208,6 @@ const initialValues = computed(() => {
 
 <BreadCrumbs :items="itemsBreadCrumbs" />
 <PageSpiner :isSpiner="isPageSpiner" />
-
   <div  v-if="!isPageSpiner">
   <h1 class="text-3xl mb-12"> {{pageOptions.title}}</h1>
   <div class="w-[700px] my-6"  >
@@ -282,6 +281,8 @@ const initialValues = computed(() => {
     </Form>
   </div>
 </div>
+
+
  <modalSpiner :isSpiner="isLoading" ></modalSpiner>
 </template>
 <style scoped>

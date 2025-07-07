@@ -46,6 +46,12 @@ const router = createRouter({
           name: 'dashboard',
           component: () => import('@/views/dashboard/Index.vue')
         },
+        {
+          path: 'tiptap',
+          name: 'tiptap',
+          component: () => import('@/components/Tiptap/Index.vue')
+        },
+        
        {
          path: 'catalog-index',
          name: 'catalog-index',
